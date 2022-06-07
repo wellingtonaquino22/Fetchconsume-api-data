@@ -12,6 +12,7 @@ function handleFilterChange() { //método para filtragem dos dados
   fetchData()
 }
 
+
 function fetchData() { //método Fetch
   fetch("https://api.artic.edu/api/v1/artworks") //requisição
     .then((response) => { 
@@ -31,14 +32,23 @@ function fetchData() { //método Fetch
             <th >Ano de exibição</th>
           </tr>
       `;
-
+      
       paints.map(({ id, title, artist_title, date_display }) => { //pegando os campos
 
         let canBeWrite = false;
 
+        if (!title) {
+          title = 'null'
+        }
+
         if (!artist_title) {
           artist_title = 'null'
         }
+
+        if (!date_display) {
+          date_display = 'null'
+        }
+
 
         console.log('pode ser escrito:', canBeWrite);
 
@@ -56,8 +66,11 @@ function fetchData() { //método Fetch
         if (artist_title.toLowerCase().includes(filter.toLowerCase())) {
           canBeWrite = true;
         }
+        if(date_display=='null'){
+          canBeWrite = true;
+        }
 
-        if (date_display.toLowerCase().includes(filter.toLowerCase())) {
+        if (date_display.toLowerCase().includes(filter.toLowerCase())){
           canBeWrite = true;
         }
 
