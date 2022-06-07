@@ -1,7 +1,7 @@
 let filter = ''
 
 function handleFilterChange() { //método para filtragem dos dados
-  const { value } = document.getElementById('filter'); //Selecionando o class do html
+  const { value } = document.getElementById('filter'); //Selecionando o id do html
 
   if (value) {
     filter = value.trim() //Remover espaços no inicio e fim do texto
