@@ -12,6 +12,53 @@ function handleFilterChange() { //método para filtragem dos dados
   fetchData()
 }
 
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.querySelector(".user");
+  switching = true;
+  dir = "asc"; // Direção como crescente
+
+  while (switching) { //loop até não ter alteração feita.
+    switching = false; // troca inicia como falsa
+    rows = table.rows; // anda em todas as linhas
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;// inicialmente não tem troca
+
+      // Compara a linha atual com a próxima
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+
+      // verifica se as linhas podem trocar, levando em consideração asc ou desc
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          // caso atenda, shouldSwitch é true e o loop é interrompido
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      // se shouldSwitch é true , faz o switch e o marcando, mostrando que a troca foi feita.
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+
+      switchcount ++;// A cada troca feita é adicionado a contagem +1
+    } else {
+      //caso não houve mudança e a direção for "asc" a direção é "desc" e reproduz o loop novamente.
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+
 
 function fetchData() { //método Fetch
   fetch("https://api.artic.edu/api/v1/artworks") //requisição
@@ -26,10 +73,10 @@ function fetchData() { //método Fetch
       let html = `
         <table class="user"> 
           <tr class="user2">
-            <th >Id</th>
-            <th >Título</th>
-            <th >Nome do artista</th>
-            <th >Ano de exibição</th>
+            <th onclick="sortTable(0)" >Id</th>
+            <th onclick="sortTable(1)">Título</th>
+            <th onclick="sortTable(2)">Nome do artista</th>
+            <th onclick="sortTable(3)">Ano de exibição</th>
           </tr>
       `;
       
@@ -48,11 +95,6 @@ function fetchData() { //método Fetch
         if (!date_display) {
           date_display = 'null'
         }
-
-
-        console.log('pode ser escrito:', canBeWrite);
-
-        console.log(typeof id)
 
         // isNaN = is not a number
         if (!isNaN(filter) && id == Number(filter)) {
@@ -74,8 +116,6 @@ function fetchData() { //método Fetch
           canBeWrite = true;
         }
 
-        console.log('realmente pode ser escrito?', canBeWrite);
-
         //escrevendo a resposta em html, extraindo da data os campos requeridos
         if (canBeWrite) {
           html += `
@@ -91,9 +131,8 @@ function fetchData() { //método Fetch
 
       html += '</table>';
 
-      console.log(html);
-
       document.getElementById("app").innerHTML = html;
+      
     })
     .catch(error => console.log(error));
 }
