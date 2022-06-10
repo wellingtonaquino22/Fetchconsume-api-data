@@ -13,7 +13,7 @@ function handleFilterChange() { //método para filtragem dos dados
 }
 
 function sortTable(n) {
-  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.querySelector(".user");
   switching = true;
   dir = "asc"; // Direção como crescente
@@ -31,7 +31,7 @@ function sortTable(n) {
       // verifica se as linhas podem trocar, levando em consideração asc ou desc
       if (dir == "asc") {
         if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          // If so, mark as a switch and break the loop:
+          
           shouldSwitch = true;
           break;
         }
@@ -89,11 +89,15 @@ function fetchData() { //método Fetch
         }
 
         if (!artist_title) {
-          artist_title = 'null'
+        artist_title = 'null'
         }
 
         if (!date_display) {
           date_display = 'null'
+        }
+
+        if(date_display=='null'){
+          canBeWrite = true;
         }
 
         // isNaN = is not a number
@@ -106,9 +110,6 @@ function fetchData() { //método Fetch
         }
 
         if (artist_title.toLowerCase().includes(filter.toLowerCase())) {
-          canBeWrite = true;
-        }
-        if(date_display=='null'){
           canBeWrite = true;
         }
 
