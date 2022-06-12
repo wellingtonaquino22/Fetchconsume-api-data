@@ -1,3 +1,4 @@
+const url = "https://api.artic.edu/api/v1/artworks"
 let filter = ''
 
 function handleFilterChange() { //método para filtragem dos dados
@@ -31,7 +32,7 @@ function sortTable(n) {
       // verifica se as linhas podem trocar, levando em consideração asc ou desc
       if (dir == "asc") {
         if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          
+
           shouldSwitch = true;
           break;
         }
@@ -61,7 +62,7 @@ function sortTable(n) {
 
 
 function fetchData() { //método Fetch
-  fetch("https://api.artic.edu/api/v1/artworks") //requisição
+  fetch(url) //requisição
     .then((response) => { 
       if (!response.ok) { //verificando o status
           throw Error("Erro");
@@ -84,6 +85,7 @@ function fetchData() { //método Fetch
 
         let canBeWrite = false;
 
+        
         if (!title) {
           title = 'null'
         }
